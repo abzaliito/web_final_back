@@ -1,78 +1,34 @@
-const productsData = [
-  {
-    id: 1,
-    name: "Смартфон Pro X",
-    category: "smartphones",
-    price: 75000,
-    rating: 5,
-    image:
-      "assets/samsung.jpg",
-    specs: { ram: "8GB", storage: "256GB", battery: "5000mAh" },
-  },
-  {
-    id: 2,
-    name: "Ноутбук UltraBook 15",
-    category: "laptops",
-    price: 120000,
-    rating: 5,
-    image:
-      "assets/ultrabook.jpg",
-    specs: { cpu: "Intel i7", ram: "16GB", storage: "512GB SSD" },
-  },
-  {
-    id: 3,
-    name: "Наушники SoundWave",
-    category: "accessories",
-    price: 15000,
-    rating: 4,
-    image:
-      "assets/soundwave.jpg",
-    specs: { type: "Bluetooth", battery: "30h", color: "черный" },
-  },
-  {
-    id: 4,
-    name: "Iphone 17",
-    category: "smartphones",
-    price: 95000,
-    rating: 5,
-    image:
-      "assets/iphone17.jpg",
-    specs: { ram: "12GB", storage: "512GB", battery: "5500mAh" },
-  },
-  {
-    id: 5,
-    name: "Apple MacBook Air",
-    category: "laptops",
-    price: 85000,
-    rating: 4,
-    image:
-      "assets/macbook.jpg",
-    specs: { cpu: "AMD Ryzen 7", ram: "8GB", storage: "256GB SSD" },
-  },
-  {
-    id: 6,
-    name: "USB-C кабель",
-    category: "accessories",
-    price: 2000,
-    rating: 4,
-    image:
-      "assets/usbcabel.jpg",
-    specs: { length: "2m", type: "USB 3.0", color: "белый" },
-  },
-];
 
 class ProductsManager {
   constructor() {
-    this.products = productsData;
-    this.filteredProducts = [...this.products];
+    this.products = [];
+    this.filteredProducts = [];
     this.selectedComparison = [];
     this.init();
   }
 
-  init() {
-    this.renderProducts();
+  async init() {
+    await this.fetchProducts();
     this.attachEventListeners();
     this.applyFilters();
+  }
+
+  async fetchProducts() {
+    try {
+      const response = await fetch("http://localhost:8080/api/products");
+      if (!response.ok) throw new Error("Failed to fetch products");
+      const data = await response.json();
+      // Map _id to id for compatibility with existing logic
+      this.products = data.map(p => ({ ...p, id: p._id }));
+      this.filteredProducts = [...this.products];
+      this.renderProducts();
+      this.updateProductCount();
+    } catch (error) {
+      console.error("Error loading products:", error);
+      $("#productsContainer").html(
+        '<div class="col-12"><p class="text-center text-danger">Ошибка загрузки товаров. Убедитесь, что сервер запущен (port 8080).</p></div>'
+      );
+    }
   }
 
   attachEventListeners() {
@@ -99,7 +55,8 @@ class ProductsManager {
 
     // Comparison
     $(document).on("change", ".compare-checkbox", (e) => {
-      const productId = parseInt(e.target.dataset.productId);
+      // Use string ID (MongoDB ObjectId)
+      const productId = e.target.dataset.productId;
       if (e.target.checked) {
         this.selectedComparison.push(productId);
       } else {
@@ -174,17 +131,16 @@ class ProductsManager {
       const html = `
         <div class="col">
           <div class="card h-100 shadow-sm">
-            <img src="${product.image}" class="card-img-top" alt="${
-        product.name
-      }" />
+            <img src="${product.image}" class="card-img-top" alt="${product.name
+        }" />
             <div class="card-body d-flex flex-column">
               <h5 class="card-title">${product.name}</h5>
               <p class="text-muted small">${stars}</p>
               <p class="text-muted small">
                 <strong>Характеристики:</strong><br>
                 ${Object.entries(product.specs)
-                  .map(([k, v]) => `${k}: ${v}`)
-                  .join("<br>")}
+          .map(([k, v]) => `${k}: ${v}`)
+          .join("<br>")}
               </p>
               <div class="d-flex justify-content-between align-items-center mt-auto pt-3">
                 <span class="fw-semibold fs-5 text-primary">${product.price.toLocaleString()} ₽</span>
@@ -223,16 +179,19 @@ class ProductsManager {
 
     this.selectedComparison.forEach((id) => {
       const product = this.products.find((p) => p.id === id);
-      list.append(`
-        <div class="badge bg-primary me-2 mb-2">
-          ${product.name}
-          <button class="btn-close btn-close-white ms-2" data-remove-id="${id}"></button>
-        </div>
-      `);
+      if (product) {
+        list.append(`
+            <div class="badge bg-primary me-2 mb-2">
+              ${product.name}
+              <button class="btn-close btn-close-white ms-2" data-remove-id="${id}"></button>
+            </div>
+          `);
+      }
     });
 
     $("[data-remove-id]").on("click", (e) => {
-      const id = parseInt(e.target.dataset.removeId);
+      // Use string ID
+      const id = e.target.dataset.removeId;
       this.selectedComparison = this.selectedComparison.filter(
         (pid) => pid !== id
       );

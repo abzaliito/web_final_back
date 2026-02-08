@@ -48,8 +48,16 @@ function register(username, email, password) {
         });
 }
 
+function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+}
+
+
 function getCurrentUser() {
-    return JSON.parse(localStorage.getItem("user"));
+    const userStr = localStorage.getItem("user");
+    if (userStr) return JSON.parse(userStr);
+    return null;
 }
 
 // UI Update Logic
@@ -60,14 +68,21 @@ document.addEventListener("DOMContentLoaded", () => {
     if (navContainer) {
         if (user) {
             // User is logged in
+            let adminLink = "";
+            if (user.roles && user.roles.includes("ROLE_ADMIN")) {
+                adminLink = `<li><a class="dropdown-item" href="admin.html">Админ Панель</a></li>`;
+            }
+
             const userHtml = `
         <div class="dropdown">
           <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
             ${user.username}
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
+            ${adminLink}
             <li><a class="dropdown-item" href="profile.html">Профиль</a></li>
-            <li><button class="dropdown-item" id="logoutBtn">Выйти</button></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><button class="dropdown-item text-danger" id="logoutBtn">Выйти</button></li>
           </ul>
         </div>
       `;
