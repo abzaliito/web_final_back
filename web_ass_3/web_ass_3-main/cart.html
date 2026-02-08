@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Корзина — ElectroStore</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body class="bg-body-tertiary">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top" aria-label="Основная навигация">
+      <div class="container">
+        <a class="navbar-brand text-uppercase fw-semibold" href="index.html">ElectroStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav"
+          aria-controls="mainNav" aria-expanded="false" aria-label="Переключатель навигации">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="index.html" data-translate="home">Главная</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="products.html" data-translate="catalog">Каталог</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="gallery.html" data-translate="gallery">Галерея</a>
+            </li>
+
+          </ul>
+          <div class="d-flex flex-wrap gap-2 ms-lg-3 pt-3 pt-lg-0">
+            <!-- Language Selector -->
+            <div class="btn-group btn-group-sm" role="group" aria-label="Language selector">
+              <button type="button" class="btn btn-outline-light" data-lang="ru">
+                РУ
+              </button>
+              <button type="button" class="btn btn-outline-light" data-lang="en">
+                EN
+              </button>
+              <button type="button" class="btn btn-outline-light" data-lang="kk">
+                KK
+              </button>
+            </div>
+
+            <!-- Theme Toggle -->
+            <button class="btn btn-outline-light" data-theme-toggle title="Сменить тему">
+              <i class="bi bi-palette-fill"></i>
+            </button>
+
+            <a class="btn btn-outline-light" href="cart.html" data-translate="cart">Корзина</a>
+            <a class="btn btn-primary" href="checkout.html" data-translate="checkout">Оформить заказ</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="py-5" data-cart-root>
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-12 col-lg-8">
+            <div class="card shadow-sm h-100">
+              <div class="card-body p-4 p-md-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+                  <div>
+                    <span class="badge text-bg-primary mb-2">Ваша корзина</span>
+                    <h1 class="h4 fw-semibold mb-0">
+                      Товары в ожидании заказа
+                    </h1>
+                  </div>
+                  <span class="text-muted small">Позиции: <strong data-cart-count>0</strong></span>
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table align-middle">
+                    <thead>
+                      <tr>
+                        <th scope="col">Товар</th>
+                        <th scope="col" class="text-center">Количество</th>
+                        <th scope="col" class="text-end">Цена</th>
+                        <th scope="col" class="text-end">Сумма</th>
+                      </tr>
+                    </thead>
+                    <tbody data-cart-body></tbody>
+                  </table>
+                </div>
+
+                <div class="d-flex flex-wrap gap-3 mt-4">
+                  <a class="btn btn-outline-primary" href="products.html">Продолжить покупки</a>
+                  <button class="btn btn-outline-secondary ms-auto" type="button" data-cart-clear>
+                    Очистить корзину
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <div class="card shadow-sm">
+              <div class="card-body p-4 p-md-5">
+                <h2 class="h5 fw-semibold mb-3">Итог заказа</h2>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>Сумма товаров</span>
+                    <span data-cart-subtotal>0 ₽</span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                    <span>Доставка</span>
+                    <span data-cart-shipping>Бесплатно</span>
+                  </li>
+                </ul>
+                <div class="d-flex justify-content-between align-items-center mt-3">
+                  <span class="fw-semibold">Итого</span>
+                  <span class="fw-semibold fs-5 text-primary" data-cart-total>0 ₽</span>
+                </div>
+                <button class="btn btn-success w-100 mt-4" type="button" onclick="location.href='checkout.html'">
+                  Перейти к оформлению
+                </button>
+                <p class="small text-muted mt-3 mb-4">
+                  Добавьте промокод при оформлении и выберите удобный способ
+                  доставки.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-dark text-white py-4">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+      <p class="mb-0">
+        © 2025 ElectroStore. Корзина.
+      </p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+  <script src="js/script.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Каталог товаров - ElectroStore</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body class="bg-body-tertiary">
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm sticky-top">
+      <div class="container">
+        <a class="navbar-brand text-uppercase fw-semibold" href="index.html">ElectroStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html" data-translate="home">Главная</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="products.html" data-translate="catalog">Каталог</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="gallery.html" data-translate="gallery">Галерея</a>
+            </li>
+
+          </ul>
+          <div class="d-flex flex-wrap gap-2 ms-lg-3 pt-3 pt-lg-0">
+            <div class="btn-group btn-group-sm" role="group" aria-label="Language selector">
+              <button type="button" class="btn btn-outline-light active" data-lang="ru">
+                РУ
+              </button>
+              <button type="button" class="btn btn-outline-light" data-lang="en">
+                EN
+              </button>
+              <button type="button" class="btn btn-outline-light" data-lang="kk">
+                KK
+              </button>
+            </div>
+            <button class="btn btn-outline-light" data-theme-toggle title="Сменить тему">
+              <i class="bi bi-palette-fill"></i>
+            </button>
+            <a class="btn btn-outline-light" href="cart.html" data-translate="cart">Корзина</a>
+            <a class="btn btn-primary" href="checkout.html" data-translate="checkout">Оформить заказ</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="py-5">
+      <div class="container">
+        <h1 class="mb-4">Каталог товаров</h1>
+
+        <div class="row g-4">
+          <!-- Sidebar Filters -->
+          <div class="col-lg-3">
+            <div class="card">
+              <div class="card-header">
+                <h5>Фильтрация</h5>
+              </div>
+              <div class="card-body">
+                <!-- Real-time Search -->
+                <div class="mb-4">
+                  <label class="form-label">Поиск товара</label>
+                  <input type="text" id="productSearch" class="form-control" placeholder="Введите название..." />
+                </div>
+
+                <!-- Category Filter -->
+                <div class="mb-4">
+                  <label class="form-label">Категория</label>
+                  <div class="list-group">
+                    <label class="list-group-item">
+                      <input class="form-check-input me-2" type="checkbox" value="smartphones" data-filter="category" />
+                      Смартфоны
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-2" type="checkbox" value="laptops" data-filter="category" />
+                      Ноутбуки
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-2" type="checkbox" value="accessories" data-filter="category" />
+                      Аксессуары
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Price Range -->
+                <div class="mb-4">
+                  <label class="form-label">Цена: <span id="priceValue">50000</span> ₽</label>
+                  <input type="range" id="priceFilter" class="form-range" min="1000" max="500000" value="50000"
+                    data-filter="price" />
+                </div>
+
+                <!-- Rating Filter -->
+                <div class="mb-4">
+                  <label class="form-label">Рейтинг</label>
+                  <div class="list-group">
+                    <label class="list-group-item">
+                      <input class="form-check-input me-2" type="checkbox" value="5" data-filter="rating" />
+                      ⭐⭐⭐⭐⭐ 5 звёзд
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-2" type="checkbox" value="4" data-filter="rating" />
+                      ⭐⭐⭐⭐ 4+ звёзды
+                    </label>
+                    <label class="list-group-item">
+                      <input class="form-check-input me-2" type="checkbox" value="3" data-filter="rating" />
+                      ⭐⭐⭐ 3+ звёзды
+                    </label>
+                  </div>
+                </div>
+
+                <button class="btn btn-secondary w-100" id="resetFilters">
+                  Сбросить фильтры
+                </button>
+              </div>
+            </div>
+
+            <!-- Comparison Section -->
+            <div class="card mt-4">
+              <div class="card-header">
+                <h5>Сравнение товаров</h5>
+              </div>
+              <div class="card-body">
+                <div id="comparisonList" class="mb-3">
+                  <p class="text-muted small">
+                    Выберите товары для сравнения
+                  </p>
+                </div>
+                <button class="btn btn-primary w-100 btn-sm" id="compareBtn" disabled>
+                  Сравнить (<span id="compareCount">0</span>)
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Products Grid -->
+          <div class="col-lg-9">
+            <div class="mb-4 d-flex justify-content-between align-items-center">
+              <p id="productCount" class="mb-0">
+                Найдено товаров: <strong>0</strong>
+              </p>
+              <select id="sortFilter" class="form-select form-select-sm" style="width: auto">
+                <option value="default">Сортировать по</option>
+                <option value="price-low">Цена: низкая → высокая</option>
+                <option value="price-high">Цена: высокая → низкая</option>
+                <option value="rating">По рейтингу</option>
+                <option value="name">По названию</option>
+              </select>
+            </div>
+
+            <div id="productsContainer" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+              <!-- Products will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Comparison Modal -->
+  <div class="modal fade" id="comparisonModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Сравнение товаров</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="comparisonTable" style="overflow-x: auto">
+            <!-- Comparison table will be generated here -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="bg-dark text-white py-4 mt-5">
+    <div class="container">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <p class="mb-0">© 2025 ElectroStore</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/products.js"></script>
+</body>
+
+</html>
