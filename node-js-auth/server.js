@@ -21,6 +21,8 @@ mongoose
     .connect(process.env.MONGO_URI)
     .then(() => {
         console.log("Successfully connect to MongoDB.");
+        const productController = require("./app/controllers/product.controller");
+        productController.seedProducts();
     })
     .catch(err => {
         console.error("Connection error", err);
@@ -36,6 +38,7 @@ app.get("/", (req, res) => {
 require("./app/routes/auth.routes")(app);
 require("./app/routes/user.routes")(app);
 require("./app/routes/order.routes")(app);
+require("./app/routes/product.routes")(app);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

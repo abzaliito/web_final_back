@@ -1,4 +1,4 @@
-const { authJwt } = require("../middlewares");
+const { authJwt, validation } = require("../middlewares");
 const controller = require("../controllers/order.controller");
 
 module.exports = function (app) {
@@ -12,7 +12,7 @@ module.exports = function (app) {
 
     app.post(
         "/api/orders",
-        [authJwt.verifyToken],
+        [authJwt.verifyToken, validation.validateOrder],
         controller.createOrder
     );
 
@@ -20,5 +20,23 @@ module.exports = function (app) {
         "/api/orders",
         [authJwt.verifyToken],
         controller.getUserOrders
+    );
+
+    app.get(
+        "/api/orders/:id",
+        [authJwt.verifyToken],
+        controller.getOrder
+    );
+
+    app.put(
+        "/api/orders/:id",
+        [authJwt.verifyToken],
+        controller.updateOrder
+    );
+
+    app.delete(
+        "/api/orders/:id",
+        [authJwt.verifyToken],
+        controller.deleteOrder
     );
 };
