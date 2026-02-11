@@ -33,7 +33,7 @@
    ```
 
 ### Frontend Setup
-1. Navigate to `web_ass_3-main (1)/web_ass_3-main/`.
+1. Navigate to `web_ass_3-main/`.
 2. Open `index.html` in any modern browser (or use VS Code Live Server).
 
 ## 3. API Documentation
@@ -85,7 +85,7 @@
 - **Responsive Design**: Works on mobile and desktop.
 - **Interactive Elements**: Theme toggler, animations, and dynamic content.
 
-## Setup Instructions
+## Setup Instructions (Detailed)
 
 ### Prerequisites
 - Node.js installed.
@@ -113,12 +113,12 @@
    ```bash
    npm start
    ```
-   The server runs on `http://localhost:8080`.
+   The server runs on `http://localhost:8080` (or your Render URL in production).
 
 ### Frontend Setup
 1. Navigate to the frontend directory:
    ```bash
-   cd "web_ass_3-main (1)/web_ass_3-main"
+   cd "web_ass_3-main"
    ```
 2. Open `index.html` in your browser (or use Live Server).
 3. Ensure the backend is running for Auth and Order features to work.
@@ -154,88 +154,87 @@
 - **Login/Register**: Secure auth forms.
 - **Cart**: Managing items before checkout.
 
-## 7. Полная история разработки (Detailed Development Process)
+## 7. Development History (Detailed Development Process)
 
-Мы строили этот проект поэтапно, двигаясь от настройки серверной части к интерфейсу пользователя. Вот как это было:
+We built this project incrementally, moving from backend setup to the user interface. Here is how it went:
 
-### Часть 1: Разработка Backend (Node.js + Express + MongoDB)
+### Part 1: Backend Development (Node.js + Express + MongoDB)
 
-**Шаг 1.1: Инициализация и Базовая Настройка**
-1.  Создали папку `node-js-auth` и инициализировали проект: `npm init -y`.
-2.  Установили необходимые пакеты:
-    *   `express`: Для создания сервера.
-    *   `mongoose`: Для работы с базой данных MongoDB.
-    *   `cors`: Для разрешения запросов с фронтенда (другого источника).
-    *   `jsonwebtoken`: Для создания токенов авторизации.
-    *   `bcryptjs`: Для хеширования паролей.
-3.  Создали файл `server.js` — точка входа в приложение. Здесь мы подключили `express`, настроили `cors` и запустили сервер на порту 8080.
+**Step 1.1: Initialization and Basic Setup**
+1.  Created the `node-js-auth` folder and initialized the project: `npm init -y`.
+2.  Installed necessary packages:
+    *   `express`: To create the server.
+    *   `mongoose`: To work with the MongoDB database.
+    *   `cors`: To allow requests from the frontend (cross-origin).
+    *   `jsonwebtoken`: For authorization tokens.
+    *   `bcryptjs`: For password hashing.
+3.  Created `server.js` — the application entry point. Here we connected `express`, configured `cors`, and started the server on port 8080.
 
-**Шаг 1.2: Подключение Базы Данных (MongoDB Atlas)**
-1.  Создали кластер в MongoDB Atlas.
-2.  В файле `app/config/db.config.js` (или через `.env`) настроили строку подключения.
-3.  В `app/models/index.js` инициализировали `mongoose` и подключили модели данных.
+**Step 1.2: Database Connection (MongoDB Atlas)**
+1.  Created a cluster in MongoDB Atlas.
+2.  Configured the connection string in `app/config/db.config.js` (or via `.env`).
+3.  Initialized `mongoose` and connected data models in `app/models/index.js`.
 
-**Шаг 1.3: Модели Данных (Schema Design)**
-Мы определили структуру данных в папке `app/models/`:
-1.  `user.model.js`: Схема пользователя (имя, email, пароль, ссылки на роли, корзина).
-2.  `role.model.js`: Схема ролей (`user`, `admin`).
-3.  `product.model.js` (опционально): Для хранения товаров в БД.
+**Step 1.3: Data Models (Schema Design)**
+We defined the data structure in the `app/models/` folder:
+1.  `user.model.js`: User schema (name, email, password, role references, cart).
+2.  `role.model.js`: Role schema (`user`, `admin`).
+3.  `product.model.js` (optional): For storing products in the DB.
 
-**Шаг 1.4: Аутентификация и Безопасность (Auth & Security)**
-Это была самая сложная часть backend-а:
-1.  **Контроллеры (`app/controllers/auth.controller.js`)**:
-    *   `signup`: Проверяет, существует ли пользователь, хеширует пароль через `bcrypt`, сохраняет пользователя и присваивает роль.
-    *   `signin`: Находит пользователя, проверяет пароль, генерирует JWT токен с сроком действия 24 часа.
+**Step 1.4: Authentication & Security**
+This was the most complex part of the backend:
+1.  **Controllers (`app/controllers/auth.controller.js`)**:
+    *   `signup`: Checks if the user exists, hashes the password via `bcrypt`, saves the user, and assigns a role.
+    *   `signin`: Finds the user, verifies the password, generates a JWT token valid for 24 hours.
 2.  **Middleware (`app/middlewares/`)**:
-    *   `authJwt.js`: Проверяет наличие токена в заголовках, декодирует его и проверяет права доступа (isAdmin).
-    *   `verifySignUp.js`: Проверяет, не занят ли email или username при регистрации.
-3.  **Роуты (`app/routes/auth.routes.js`)**: Определили endpoints `POST /api/auth/signup` и `POST /api/auth/signin`.
+    *   `authJwt.js`: Checks for the token in headers, decodes it, and verifies access rights (isAdmin).
+    *   `verifySignUp.js`: Checks if the email or username is already taken during registration.
+3.  **Routes (`app/routes/auth.routes.js`)**: Defined endpoints `POST /api/auth/signup` and `POST /api/auth/signin`.
 
-**Шаг 1.5: Функционал Пользователя и API**
-1.  Реализовали `app/controllers/user.controller.js` для разделения доступа:
-    *   Публичный доступ (для всех).
-    *   Доступ для пользователей (требует токен).
-    *   Доступ для админов.
-2.  Настроили `app/routes/user.routes.js`, подключив middleware `authJwt` для защиты маршрутов.
+**Step 1.5: User Functionality and API**
+1.  Implemented `app/controllers/user.controller.js` to separate access:
+    *   Public access (for everyone).
+    *   User access (requires token).
+    *   Admin access.
+2.  Configured `app/routes/user.routes.js`, connecting the `authJwt` middleware to protect routes.
 
 ---
 
-### Часть 2: Разработка Frontend (HTML + CSS + JS)
+### Part 2: Frontend Development (HTML + CSS + JS)
 
-**Шаг 2.1: Структура и Дизайн**
-1.  Создали структуру папок в `web_ass_3`: `css/`, `js/`, `assets/`.
-2.  Верстали страницы HTML:
-    *   `index.html`: Главная страница с промо-блоками.
-    *   `login.html` / `register.html`: Формы авторизации.
-    *   `products.html` / `product-detail.html`: Каталог и карточка товара.
-    *   `cart.html` / `checkout.html`: Корзина и оформление.
-3.  Подключили **Bootstrap 5** для сетки и компонентов (навбар, карточки, модальные окна).
+**Step 2.1: Structure and Design**
+1.  Created folder structure in `web_ass_3`: `css/`, `js/`, `assets/`.
+2.  Built HTML pages:
+    *   `index.html`: Main page with promo blocks.
+    *   `login.html` / `register.html`: Auth forms.
+    *   `products.html` / `product-detail.html`: Catalog and product card.
+    *   `cart.html` / `checkout.html`: Cart and checkout.
+3.  Connected **Bootstrap 5** for the grid and components (navbar, cards, modals).
 
-**Шаг 2.2: Логика JavaScript (Client-Side Logic)**
-Мы разделили логику на модули в папке `js/`:
+**Step 2.2: JavaScript Logic (Client-Side Logic)**
+We separated logic into modules in the `js/` folder:
 
-1.  **Аутентификация (`js/auth.js`)**:
-    *   Написали функции для отправки форм входа/регистрации на `/api/auth/...`.
-    *   При успешном входе сохраняем `accessToken` и данные пользователя в `localStorage`.
-    *   Реализовали проверку "Залогинен ли пользователь": меняем кнопки "Вход" на "Профиль/Выход" в шапке.
+1.  **Authentication (`js/auth.js`)**:
+    *   Wrote functions to submit login/register forms to `/api/auth/...`.
+    *   On successful login, we save `accessToken` and user data to `localStorage`.
+    *   Implemented "Is user logged in" check: changing "Login" buttons to "Profile/Logout" in the header.
 
-2.  **Товары и Каталог (`js/products.js`)**:
-    *   Создали массив объектов с данными товаров (или получаем их с сервера).
-    *   Написали функцию динамической генерации HTML карточек товаров.
-    *   Реализовали фильтрацию по категориям и цене.
+2.  **Products and Catalog (`js/products.js`)**:
+    *   Created an array of product objects (or fetch them from the server).
+    *   Wrote a function for dynamic HTML generation of product cards.
+    *   Implemented filtering by category and price.
 
-3.  **Корзина (`js/cart.js`)**:
-    *   Используем `localStorage` для хранения массива выбранных товаров.
-    *   Реализовали функции: `addToCart(product)`, `removeFromCart(id)`, `updateQuantity()`.
-    *   Считаем и отображаем итоговую сумму заказа.
+3.  **Shopping Cart (`js/cart.js`)**:
+    *   Using `localStorage` to store the array of selected items.
+    *   Implemented functions: `addToCart(product)`, `removeFromCart(id)`, `updateQuantity()`.
+    *   Calculating and displaying the total order amount.
 
-4.  **Взаимодействие с Backend (`js/script.js`)**:
-    *   Настроили глобальные обработчики событий.
-    *   Связали кнопки "Купить" с логикой корзины.
-    *   Сделали проверку токена при попытке зайти на защищенные страницы (например, профиль).
+4.  **Backend Interaction (`js/script.js`)**:
+    *   Configured global event listeners.
+    *   Linked "Buy" buttons to cart logic.
+    *   Added token checks when trying to access protected pages (e.g., profile).
 
-**Шаг 2.3: Финальная Интеграция**
-1.  Запустили сервер (`npm start` в папке backend).
-2.  Открыли `index.html` через Live Server.
-3.  Протестировали полный цикл: Регистрация -> Вход -> Добавление товара в корзину -> Оформление заказа -> Проверка сохранения данных.
-
+**Step 2.3: Final Integration**
+1.  Started the server (`npm start` in the backend folder).
+2.  Opened `index.html` via Live Server.
+3.  Tested the full cycle: Registration -> Login -> Add item to cart -> Checkout -> Check data persistence.
