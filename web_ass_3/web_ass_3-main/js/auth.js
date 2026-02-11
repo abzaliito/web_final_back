@@ -1,6 +1,7 @@
-const API_URL = "http://localhost:8080/api/auth/";
+const API_URL = "https://web-final-back.onrender.com/api/auth/";
 
 function login(username, password) {
+    console.log("Login attempt to:", API_URL + "signin");
     return fetch(API_URL + "signin", {
         method: "POST",
         headers: {
