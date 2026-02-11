@@ -57,7 +57,6 @@
 - **DELETE /api/orders/:id**: Delete an order.
 
 ## 4. Features & Screenshots
-*(Screenshots would be placed here in the repo)*
 
 - **Authentication**: Secure Login/Register forms with Joi validation.
 - **Catalog**: Filter products by category, price, and rating.
@@ -146,13 +145,6 @@
 - **GET /api/orders**
   - Headers: `x-access-token: <token>`
   - Returns user's order history.
-
-## Screenshots
-*(Placeholders for actual screenshots)*
-- **Home Page**: Hero section and featured products.
-- **Catalog**: Product listing with filters.
-- **Login/Register**: Secure auth forms.
-- **Cart**: Managing items before checkout.
 
 ## 7. Development History (Detailed Development Process)
 
