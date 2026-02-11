@@ -58,6 +58,7 @@
 
 ## 4. Features & Screenshots
 
+
 - **Authentication**: Secure Login/Register forms with Joi validation.
 - **Catalog**: Filter products by category, price, and rating.
 - **Shopping Cart**: Persistent cart using LocalStorage.
@@ -145,6 +146,13 @@
 - **GET /api/orders**
   - Headers: `x-access-token: <token>`
   - Returns user's order history.
+
+## Screenshots
+
+- **Home Page**: Hero section and featured products.
+- **Catalog**: Product listing with filters.
+- **Login/Register**: Secure auth forms.
+- **Cart**: Managing items before checkout.
 
 ## 7. Development History (Detailed Development Process)
 
