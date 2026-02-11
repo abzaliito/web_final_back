@@ -15,7 +15,7 @@ class ProductsManager {
 
   async fetchProducts() {
     try {
-      const response = await fetch("http://localhost:8080/api/products");
+      const response = await fetch("https://web-final-back.onrender.com/api/products");
       if (!response.ok) throw new Error("Failed to fetch products");
       const data = await response.json();
       // Map _id to id for compatibility with existing logic
