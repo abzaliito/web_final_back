@@ -149,10 +149,39 @@
 
 ## Screenshots
 
-- **Home Page**: Hero section and featured products.
-- **Catalog**: Product listing with filters.
-- **Login/Register**: Secure auth forms.
-- **Cart**: Managing items before checkout.
+## Screenshots
+
+### 1. Home Page
+> Main landing page.
+![Home Page](screenshots/home.png)
+
+### 2. Catalog & Filters
+> Product listing with filters.
+![Catalog](screenshots/catalog.png)
+
+### 3. Product Detail
+> Modal window with product info.
+![Product Detail](screenshots/product_detail.png)
+
+### 4. Shopping Cart
+> Cart management.
+![Cart](screenshots/cart.png)
+
+### 5. Checkout
+> Order placement.
+![Checkout](screenshots/checkout.png)
+
+### 6. Authentication
+> Login with validation.
+![Login](screenshots/login_error.png)
+
+### 7. User Profile
+> Order history.
+![Profile](screenshots/profile.png)
+
+### 8. Mobile View
+> Responsive design.
+![Mobile View](screenshots/mobile_view.png)
 
 ## 7. Development History (Detailed Development Process)
 
